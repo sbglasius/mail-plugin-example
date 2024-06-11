@@ -75,6 +75,8 @@ dependencies {
     testImplementation "org.seleniumhq.selenium:selenium-support:4.0.0"
     testRuntimeOnly "org.seleniumhq.selenium:selenium-chrome-driver:4.0.0"
     testRuntimeOnly "org.seleniumhq.selenium:selenium-firefox-driver:4.0.0"
+    
+    implementation 'org.grails.plugins:mail:3.0.0'
 }
 
 bootRun {
@@ -85,8 +87,10 @@ bootRun {
         '-XX:TieredStopAtLevel=1',
         '-Xmx1024m')
     sourceResources sourceSets.main
-    String springProfilesActive = 'spring.profiles.active'
-    systemProperty springProfilesActive, System.getProperty(springProfilesActive)
+    ['spring.profiles.active', 'grails.mail.username','grails.mail.password'].each { prop ->
+        systemProperty prop, System.getProperty(prop)
+    }
+    
 }
 
 tasks.withType(GroovyCompile) {
